@@ -1,0 +1,45 @@
+#######################################################
+#             Thank you for using MiAdmin.            #
+#               Author: NAFU_at                       #
+#              Authors: PandaSoft.Dev Social Networks #
+#       Config Version: v1.0.0                        #
+#######################################################
+
+# Set the authentication information required for authentication.
+auth:
+  # Specify the method to be used for authentication.
+  # OAUTH: Use oAuth to authenticate your account.
+  # Token: Manually enter the token to be used for authentication.
+  authType: oAuth
+
+  # Save the access token obtained by oAuth.
+  # This setting only works if "authType" is set to "OAUTH" and the database is enabled.
+  saveToken: true
+
+  # This setting is used when "authType" is set to "TOKEN".
+  fixedToken: ""
+
+  # Specifies the hostname of the instance to be used.
+  # No protocol name or slash is required.
+  instanceUrl: nijimiss.moe
+
+# This is the setting for the database that records a large amount of data needed for management.
+database:
+  tablePrefix: "mi_"
+  address: "jdbc:mariadb://localhost:3306"    # Please enter your JDBC address.
+  database: MiAdmin
+  username: MiAdmin
+  password: PaSsWoRd
+
+# This is a configuration for a module that can further increase the power of this tool.
+modules:
+  # Specify the module to enable.
+  # Please see the module list for the available modules.
+  enableModules:
+    - MiAdmin-Discord
+
+  # Enabling this setting allows you to use external modules.
+  dynamicModule: false
+
+  # If you enable this setting, you can invoke commands from the module.
+  enableInternalCommand: false
