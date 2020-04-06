@@ -16,6 +16,7 @@
 
 plugins {
     id 'java'
+    id 'maven'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
@@ -35,12 +36,54 @@ jar {
     }
 }
 
+configurations {
+    deployerJars
+}
+
+task sourcesJar(type: Jar, dependsOn: 'classes') {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+javadoc {
+    options.charSet = 'UTF-8'
+    options.encoding = 'UTF-8'
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(id: 'pandasoft', url: 'ftp://sv8276.xserver.jp/') {
+            authentication(userName: "${project.mavenUser}", password: "${project.mavenPassword}")
+        }
+        pom.project {
+            inceptionYear '2020'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }
+}
+
+
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
+    deployerJars 'org.apache.maven.wagon:wagon-ftp:3.3.4'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompileOnly 'org.projectlombok:lombok:1.18.10'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
@@ -72,7 +115,4 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:3.4.2'
     implementation 'mysql:mysql-connector-java:8.0.18'
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.5.3'
-
-    // Other
-    implementation 'net.dv8tion:JDA:4.1.1_122'
 }
