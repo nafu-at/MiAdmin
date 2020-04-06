@@ -24,6 +24,7 @@ import online.pandasoft.miadmin.core.launcher.MiAdminLauncher;
 import online.pandasoft.miadmin.core.module.MiModule;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import java.util.List;
 public class CommandManager {
     private static final MiAdminLauncher launcher = Main.getLauncher();
     private final CommandRegistry commandRegistry = new CommandRegistry();
+    private final List<CommandExecutor> ignoreLogging = new ArrayList<>();
     private final OperationLogTable operationLogTable;
 
     public CommandManager(DatabaseConnector connector) throws SQLException {
@@ -69,13 +71,17 @@ public class CommandManager {
 
         try {
             command.onInvoke(context);
-            OperationLogTable.OperationLog operationLog =
-                    new OperationLogTable.OperationLog(new Date(), context.getCustomInvokerName(), command.getClass().getName(), context.getCustomLoggerMessage());
-            operationLogTable.saveOperationLog(operationLog);
+            if (!ignoreLogging.contains(command)) {
+                OperationLogTable.OperationLog operationLog =
+                        new OperationLogTable.OperationLog(new Date(), context.getCustomInvokerName(), command.getClass().getName(), context.getCustomLoggerMessage());
+                operationLogTable.saveOperationLog(operationLog);
+            }
         } catch (SQLException e) {
             log.error("An error occurred while recording the operation log.", e);
-        } catch (Throwable e) {
-            log.warn("An uncaught exception was raised while executing the command.", e);
         }
+    }
+
+    public void setIgnore(CommandExecutor executor) {
+        ignoreLogging.add(executor);
     }
 }

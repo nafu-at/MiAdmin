@@ -84,7 +84,11 @@ public abstract class MiModule implements Module {
 
     @Override
     public void registerCommand(CommandExecutor executor) {
-        launcher.getCommandManager().registerCommand(executor, this);
+        try {
+            launcher.getCommandManager().registerCommand(executor, this);
+        } catch (NullPointerException e) {
+            throw new IllegalStateException("This method is not available in \"onLoad\".");
+        }
     }
 
     @Override
@@ -94,12 +98,20 @@ public abstract class MiModule implements Module {
 
     @Override
     public void removeCommand(CommandExecutor executor) {
-        launcher.getCommandManager().removeCommand(executor, this);
+        try {
+            launcher.getCommandManager().removeCommand(executor, this);
+        } catch (NullPointerException e) {
+            throw new IllegalStateException("This method is not available in \"onLoad\".");
+        }
     }
 
     @Override
     public void removeCommands() {
-        launcher.getCommandManager().removeCommands(this);
+        try {
+            launcher.getCommandManager().removeCommands(this);
+        } catch (NullPointerException e) {
+            throw new IllegalStateException("This method is not available in \"onLoad\".");
+        }
     }
 
     @Override

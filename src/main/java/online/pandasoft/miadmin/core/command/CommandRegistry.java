@@ -18,10 +18,10 @@ package online.pandasoft.miadmin.core.command;
 
 import online.pandasoft.miadmin.core.module.MiModule;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class CommandRegistry {
@@ -59,11 +59,17 @@ public class CommandRegistry {
     }
 
     public CommandExecutor getExecutor(String name) {
-        try {
-            return commands.entrySet().stream().flatMap(v -> v.getValue().entrySet().stream())
-                    .filter(v -> v.getKey().equals(name)).findFirst().get().getValue();
-        } catch (NoSuchElementException e) {
-            return null;
+        CommandExecutor executor = null;
+        List<MiModule> modules = new ArrayList<>(commands.keySet());
+        for (int i = modules.size() - 1; i >= 0; i--) {
+            if (executor != null)
+                break;
+            executor = commands.get(modules.get(i)).get(name);
         }
+        if (executor != null)
+            return executor;
+
+        executor = commands.get(null).get(name);
+        return executor;
     }
 }

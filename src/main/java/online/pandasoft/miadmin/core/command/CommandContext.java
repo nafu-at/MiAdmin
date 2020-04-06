@@ -50,7 +50,7 @@ public class CommandContext {
         return command;
     }
 
-    public void printMessage(Level level, String message, Object args) {
+    public void printMessage(Level level, String message, Object... args) {
         if (Level.INFO.equals(level)) {
             log.info(message, args);
         } else if (Level.WARNING.equals(level)) {

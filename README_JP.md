@@ -4,6 +4,11 @@ MiAdmin(まいあどみん)はCUIベースのMisskeyインスタンス管理補�
 MiAdminはJavaVM環境で動作する常駐型の管理補助ツールです。  
 JavaVMが動作するあらゆる環境で使用することができます。
 
+### 動作要項
+- [x] Javaの動作可能な環境
+- [x] Java11以降の実行環境
+- [x] MariaDB 5.5以降 若しくは MySQL 5.5以降
+
 ## 機能
 
 ## Lisence

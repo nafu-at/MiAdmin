@@ -18,11 +18,16 @@ package online.pandasoft.miadmin.core.launcher;
 
 import com.mysql.cj.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import online.pandasoft.miadmin.core.command.CommandExecutor;
 import online.pandasoft.miadmin.core.command.CommandManager;
+import online.pandasoft.miadmin.core.command.ConsoleReader;
+import online.pandasoft.miadmin.core.command.executor.HelpCommand;
 import online.pandasoft.miadmin.core.database.DatabaseConnector;
 import online.pandasoft.miadmin.core.database.tables.SystemParametersTable;
+import online.pandasoft.miadmin.core.module.ModuleManager;
 import online.pandasoft.miadmin.core.oauth.OAuthManager;
 import online.pandasoft.miadmin.core.task.MiTaskManager;
+import online.pandasoft.miadmin.core.websocket.WebSocketClient;
 
 import java.sql.SQLException;
 
@@ -34,8 +39,11 @@ public class Launcher implements MiAdminLauncher {
     private String accessToken;
     private DatabaseConnector connector;
     private SystemParametersTable parametersTable;
-    private CommandManager commandManager;
     private MiTaskManager taskManager;
+    private ModuleManager moduleManager;
+    private CommandManager commandManager;
+
+    private WebSocketClient webSocketClient;
 
     @Override
     public String getToken() {
@@ -101,7 +109,12 @@ public class Launcher implements MiAdminLauncher {
         }
 
         taskManager = new MiTaskManager(1000);
+        taskManager.setName("MiTaskManagerThread");
         taskManager.start();
+
+        moduleManager = new ModuleManager("modules");
+        moduleManager.loadAllModules();
+        moduleManager.enableAllModules();
 
         try {
             commandManager = new CommandManager(connector);
@@ -109,6 +122,27 @@ public class Launcher implements MiAdminLauncher {
             log.error("An error occurred while initializing the table.", e);
             return;
         }
+
+        ConsoleReader consoleReader = new ConsoleReader();
+        consoleReader.setName("ConsoleReaderThread");
+        consoleReader.setDaemon(true);
+        consoleReader.start();
+    }
+
+    private void initCommand() {
+        CommandExecutor helpCommand = new HelpCommand("help", "h");
+        commandManager.registerCommand(helpCommand, null);
+        commandManager.setIgnore(helpCommand);
+    }
+
+    @Override
+    public void shutdown() {
+        log.info("Shutting down the system...");
+        if (webSocketClient != null)
+            webSocketClient.close();
+        moduleManager.disableAllModules();
+        taskManager.shutdown();
+        connector.close();
     }
 
     @Override
@@ -124,5 +158,14 @@ public class Launcher implements MiAdminLauncher {
     @Override
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    @Override
+    public WebSocketClient getWebSocketClient() {
+        if (webSocketClient == null) {
+            webSocketClient = new WebSocketClient();
+            webSocketClient.connect();
+        }
+        return webSocketClient;
     }
 }
