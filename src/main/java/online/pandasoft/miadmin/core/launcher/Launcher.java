@@ -22,6 +22,7 @@ import online.pandasoft.miadmin.core.command.CommandExecutor;
 import online.pandasoft.miadmin.core.command.CommandManager;
 import online.pandasoft.miadmin.core.command.ConsoleReader;
 import online.pandasoft.miadmin.core.command.executor.HelpCommand;
+import online.pandasoft.miadmin.core.command.executor.StopCommand;
 import online.pandasoft.miadmin.core.database.DatabaseConnector;
 import online.pandasoft.miadmin.core.database.tables.SystemParametersTable;
 import online.pandasoft.miadmin.core.module.ModuleManager;
@@ -114,7 +115,6 @@ public class Launcher implements MiAdminLauncher {
 
         moduleManager = new ModuleManager("modules");
         moduleManager.loadAllModules();
-        moduleManager.enableAllModules();
 
         try {
             commandManager = new CommandManager(connector);
@@ -123,16 +123,21 @@ public class Launcher implements MiAdminLauncher {
             return;
         }
 
+        initCommand();
+
         ConsoleReader consoleReader = new ConsoleReader();
         consoleReader.setName("ConsoleReaderThread");
         consoleReader.setDaemon(true);
         consoleReader.start();
+
+        moduleManager.enableAllModules();
     }
 
     private void initCommand() {
         CommandExecutor helpCommand = new HelpCommand("help", "h");
         commandManager.registerCommand(helpCommand, null);
         commandManager.setIgnore(helpCommand);
+        commandManager.registerCommand(new StopCommand("stop", "exit", "shutdown"), null);
     }
 
     @Override
@@ -148,6 +153,11 @@ public class Launcher implements MiAdminLauncher {
     @Override
     public MiConfig getMiConfig() {
         return config;
+    }
+
+    @Override
+    public DatabaseConnector getConnector() {
+        return connector;
     }
 
     @Override

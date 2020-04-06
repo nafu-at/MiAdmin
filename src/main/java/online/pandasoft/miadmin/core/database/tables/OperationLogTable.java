@@ -20,10 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import online.pandasoft.miadmin.core.database.DatabaseConnector;
 import online.pandasoft.miadmin.core.database.DatabaseTable;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,13 +62,8 @@ public class OperationLogTable extends DatabaseTable {
             ps.setDate(1, new java.sql.Date(from.getTime()));
             ps.setDate(2, new java.sql.Date(to.getTime()));
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    Date date = resultSet.getDate("operation_time");
-                    String user = resultSet.getString("operation_user");
-                    String executeClass = resultSet.getString("execute_class");
-                    String description = resultSet.getString("description");
-                    operationLogs.add(new OperationLog(date, user, executeClass, description));
-                }
+                while (resultSet.next())
+                    operationLogs.add(resultToLog(resultSet));
             }
         }
         return operationLogs;
@@ -90,13 +82,8 @@ public class OperationLogTable extends DatabaseTable {
              PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + getTablename() + " WHERE operation_time > ?")) {
             ps.setDate(1, new java.sql.Date(since.getTime()));
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    Date date = resultSet.getDate("operation_time");
-                    String user = resultSet.getString("operation_user");
-                    String executeClass = resultSet.getString("execute_class");
-                    String description = resultSet.getString("description");
-                    operationLogs.add(new OperationLog(date, user, executeClass, description));
-                }
+                while (resultSet.next())
+                    operationLogs.add(resultToLog(resultSet));
             }
         }
         return operationLogs;
@@ -115,13 +102,8 @@ public class OperationLogTable extends DatabaseTable {
              PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + getTablename() + " WHERE operation_time < ?")) {
             ps.setDate(1, new java.sql.Date(to.getTime()));
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    Date date = resultSet.getDate("operation_time");
-                    String user = resultSet.getString("operation_user");
-                    String executeClass = resultSet.getString("execute_class");
-                    String description = resultSet.getString("description");
-                    operationLogs.add(new OperationLog(date, user, executeClass, description));
-                }
+                while (resultSet.next())
+                    operationLogs.add(resultToLog(resultSet));
             }
         }
         return operationLogs;
@@ -140,13 +122,8 @@ public class OperationLogTable extends DatabaseTable {
              PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + getTablename() + " WHERE operation_user = ?")) {
             ps.setString(1, operationUser);
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    Date date = resultSet.getDate("operation_time");
-                    String user = resultSet.getString("operation_user");
-                    String executeClass = resultSet.getString("execute_class");
-                    String description = resultSet.getString("description");
-                    operationLogs.add(new OperationLog(date, user, executeClass, description));
-                }
+                while (resultSet.next())
+                    operationLogs.add(resultToLog(resultSet));
             }
         }
         return operationLogs;
@@ -165,12 +142,8 @@ public class OperationLogTable extends DatabaseTable {
              PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + getTablename() + " WHERE execute_class = ?")) {
             ps.setString(1, executeClass);
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    Date date = resultSet.getDate("operation_time");
-                    String user = resultSet.getString("operation_user");
-                    String description = resultSet.getString("description");
-                    operationLogs.add(new OperationLog(date, user, executeClass, description));
-                }
+                while (resultSet.next())
+                    operationLogs.add(resultToLog(resultSet));
             }
         }
         return operationLogs;
@@ -180,7 +153,7 @@ public class OperationLogTable extends DatabaseTable {
         try (Connection connection = getConnector().getConnection();
              PreparedStatement ps = connection.prepareStatement("INSERT INTO " + getTablename() +
                      " (operation_time, operation_user, execute_class, description) VALUES (?, ?, ?, ?)")) {
-            ps.setDate(1, new java.sql.Date(operationLog.operationTime.getTime()));
+            ps.setTimestamp(1, operationLog.operationTime);
             ps.setString(2, operationLog.operationUser);
             ps.setString(3, operationLog.executeClass);
             ps.setString(4, operationLog.description);
@@ -188,21 +161,29 @@ public class OperationLogTable extends DatabaseTable {
         }
     }
 
+    private OperationLog resultToLog(ResultSet resultSet) throws SQLException {
+        Timestamp date = resultSet.getTimestamp("operation_time");
+        String user = resultSet.getString("operation_user");
+        String executeClass = resultSet.getString("execute_class");
+        String description = resultSet.getString("description");
+        return (new OperationLog(date, user, executeClass, description));
+    }
+
 
     public static class OperationLog {
-        private final Date operationTime;
+        private final Timestamp operationTime;
         private final String operationUser;
         private final String executeClass;
         private final String description;
 
-        public OperationLog(Date operationTime, String operationUser, String executeClass, String description) {
+        public OperationLog(Timestamp operationTime, String operationUser, String executeClass, String description) {
             this.operationTime = operationTime;
             this.operationUser = operationUser;
             this.executeClass = executeClass;
             this.description = description;
         }
 
-        public Date getOperationTime() {
+        public Timestamp getOperationTime() {
             return operationTime;
         }
 

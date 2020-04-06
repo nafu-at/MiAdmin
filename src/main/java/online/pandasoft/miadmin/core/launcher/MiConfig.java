@@ -18,15 +18,11 @@ package online.pandasoft.miadmin.core.launcher;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 public class MiConfig {
     @JsonProperty("auth")
     private AuthConfigSection auth;
     @JsonProperty("database")
     private DatabaseConfigSection database;
-    @JsonProperty("modules")
-    private ModulesConfigSection modules;
 
     public AuthConfigSection getAuth() {
         return auth;
@@ -34,10 +30,6 @@ public class MiConfig {
 
     public DatabaseConfigSection getDatabase() {
         return database;
-    }
-
-    public ModulesConfigSection getModules() {
-        return modules;
     }
 
     public static class AuthConfigSection {
@@ -97,27 +89,6 @@ public class MiConfig {
 
         public String getPassword() {
             return password;
-        }
-    }
-
-    public static class ModulesConfigSection {
-        @JsonProperty("enableModules")
-        private List<String> enableModules;
-        @JsonProperty("dynamicModule")
-        private boolean dynamicModule;
-        @JsonProperty("enableInternalCommand")
-        private boolean enableInternalCommand;
-
-        public List<String> getEnableModules() {
-            return enableModules;
-        }
-
-        public boolean isDynamicModule() {
-            return dynamicModule;
-        }
-
-        public boolean isEnableInternalCommand() {
-            return enableInternalCommand;
         }
     }
 

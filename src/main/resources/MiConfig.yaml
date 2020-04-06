@@ -10,7 +10,7 @@ auth:
   # Specify the method to be used for authentication.
   # OAUTH: Use oAuth to authenticate your account.
   # Token: Manually enter the token to be used for authentication.
-  authType: oAuth
+  authType: OAUTH
 
   # Save the access token obtained by oAuth.
   # This setting only works if "authType" is set to "OAUTH" and the database is enabled.
@@ -30,16 +30,3 @@ database:
   database: MiAdmin
   username: MiAdmin
   password: PaSsWoRd
-
-# This is a configuration for a module that can further increase the power of this tool.
-modules:
-  # Specify the module to enable.
-  # Please see the module list for the available modules.
-  enableModules:
-    - MiAdmin-Discord
-
-  # Enabling this setting allows you to use external modules.
-  dynamicModule: false
-
-  # If you enable this setting, you can invoke commands from the module.
-  enableInternalCommand: false

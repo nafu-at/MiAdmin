@@ -16,38 +16,39 @@
 
 package online.pandasoft.miadmin.core.command;
 
-import net.dv8tion.jda.api.entities.Guild;
+import online.pandasoft.miadmin.core.module.MiModule;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class CommandCache {
-    // TODO: 2020/04/05 Moduleベースに書き換える
-    private static final Map<Guild, Map<String, Object>> cacheRegistry = new HashMap<>();
+    private static final Map<MiModule, Map<String, Object>> cacheRegistry = new HashMap<>();
 
     private CommandCache() {
         throw new UnsupportedOperationException();
     }
 
-    public static void registerCache(Guild guild, String key, Object value) {
-        Map<String, Object> guildCache = cacheRegistry.computeIfAbsent(guild, k -> new HashMap<>());
+    public static void registerCache(MiModule module, String key, Object value) {
+        Map<String, Object> guildCache = cacheRegistry.computeIfAbsent(module, k -> new HashMap<>());
         guildCache.put(key, value);
     }
 
-    public static Object getCache(Guild guild, String key) {
-        return cacheRegistry.computeIfAbsent(guild, k -> new HashMap<>()).get(key);
+    public static Object getCache(MiModule module, String key) {
+        return cacheRegistry.computeIfAbsent(module, k -> new HashMap<>()).get(key);
     }
 
-    public static Set<Map.Entry<String, Object>> getCaches(Guild guild) {
-        return cacheRegistry.computeIfAbsent(guild, k -> new HashMap<>()).entrySet();
+    public static Set<Map.Entry<String, Object>> getCaches(MiModule module) {
+        return cacheRegistry.computeIfAbsent(module, k -> new HashMap<>()).entrySet();
     }
 
-    public static void deleteCache(Guild guild, String key) {
-        cacheRegistry.computeIfAbsent(guild, k -> new HashMap<>()).remove(key);
+    public static void deleteCache(MiModule module, String key) {
+        Map<String, Object> map = cacheRegistry.get(module);
+        if (map != null)
+            map.remove(key);
     }
 
-    public static void deleteAllCache(Guild guild) {
-        cacheRegistry.remove(guild);
+    public static void deleteAllCache(MiModule module) {
+        cacheRegistry.remove(module);
     }
 }

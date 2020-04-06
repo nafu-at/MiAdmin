@@ -27,6 +27,10 @@ public class DatabaseConnector {
 
     public DatabaseConnector(String address, String database, String username, String password) {
         HikariConfig hconfig = new HikariConfig();
+        if (address.contains("mysql"))
+            hconfig.setDriverClassName("com.mysql.jdbc.Driver");
+        else if (address.contains("mariadb"))
+            hconfig.setDriverClassName("org.mariadb.jdbc.Driver");
         hconfig.setJdbcUrl(address + "/" + database);
         hconfig.addDataSourceProperty("user", username);
         hconfig.addDataSourceProperty("password", password);

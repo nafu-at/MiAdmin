@@ -64,7 +64,9 @@ public class CommandRegistry {
         for (int i = modules.size() - 1; i >= 0; i--) {
             if (executor != null)
                 break;
-            executor = commands.get(modules.get(i)).get(name);
+            Map<String, CommandExecutor> reg = commands.get(modules.get(i));
+            if (reg != null)
+                executor = reg.get(name);
         }
         if (executor != null)
             return executor;

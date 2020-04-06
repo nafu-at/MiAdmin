@@ -51,6 +51,11 @@ public class WebSocketClient {
     }
 
     public void close() {
-        client.dispatcher().executorService().shutdown();
+        client.dispatcher().executorService().shutdownNow();
+        try {
+            client.dispatcher().executorService().awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            log.debug("An interruption occurred while waiting for the end.");
+        }
     }
 }

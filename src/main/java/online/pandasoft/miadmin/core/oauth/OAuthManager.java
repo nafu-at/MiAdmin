@@ -55,7 +55,7 @@ public class OAuthManager {
         appCreate.setName("MiAdmin");
         appCreate.setDescription("A multi-functional tool to support Misskey's operations.");
         appCreate.setPermission(getAllPermissionList());
-        appCreate.setCallbackURL("http://localhost:8080/");
+        appCreate.setCallbackURL("http://127.0.0.1:8080/");
 
         try {
             String requestParameter = mapper.writeValueAsString(appCreate);
@@ -121,16 +121,16 @@ public class OAuthManager {
         try (ServerSocket ss = new ServerSocket(8080)) {
             do {
                 try (Socket s = ss.accept();
-                     OutputStream out = s.getOutputStream();
-                     InputStream in = s.getInputStream()) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                     BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()))) {
                     String line = reader.readLine();
-                    out.write("HTTP/1.0 200 OK\n".getBytes());
-                    s.close();
+                    writer.write("HTTP/1.1 200 OK\n");
                     log.debug("A request has been received on the standby server:\n{}", line);
                     token = line.split(" ")[1].substring(8);
                 } catch (IOException e) {
                     log.error("There was a problem receiving the request.", e);
+                } catch (IndexOutOfBoundsException | NullPointerException e) {
+                    // Nothing...
                 }
             } while (token == null);
         } catch (IOException e) {

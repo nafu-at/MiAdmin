@@ -19,10 +19,7 @@ package online.pandasoft.miadmin.core.task;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Queue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.*;
 
 @Slf4j
 public class MiTaskManager extends Thread {
@@ -55,8 +52,14 @@ public class MiTaskManager extends Thread {
     }
 
     public void shutdown() {
+        isShutdown = true;
         waitingQueue.clear();
-        executor.shutdown();
+        executor.shutdownNow();
+        try {
+            executor.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            log.debug("An interruption occurred while waiting for the end.");
+        }
     }
 
     @Override

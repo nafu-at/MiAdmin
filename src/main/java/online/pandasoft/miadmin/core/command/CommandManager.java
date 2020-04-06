@@ -24,8 +24,8 @@ import online.pandasoft.miadmin.core.launcher.MiAdminLauncher;
 import online.pandasoft.miadmin.core.module.MiModule;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -73,7 +73,7 @@ public class CommandManager {
             command.onInvoke(context);
             if (!ignoreLogging.contains(command)) {
                 OperationLogTable.OperationLog operationLog =
-                        new OperationLogTable.OperationLog(new Date(), context.getCustomInvokerName(), command.getClass().getName(), context.getCustomLoggerMessage());
+                        new OperationLogTable.OperationLog(new Timestamp(System.currentTimeMillis()), context.getCustomInvokerName(), command.getClass().getName(), context.getCustomLoggerMessage());
                 operationLogTable.saveOperationLog(operationLog);
             }
         } catch (SQLException e) {

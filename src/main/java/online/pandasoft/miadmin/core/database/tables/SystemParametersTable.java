@@ -49,7 +49,9 @@ public class SystemParametersTable extends DatabaseTable {
              PreparedStatement ps = connection.prepareStatement("SELECT property FROM " + getTablename() + " WHERE properties = ?")) {
             ps.setString(1, key);
             try (ResultSet resultSet = ps.executeQuery()) {
-                return resultSet.getString(key);
+                while (resultSet.next())
+                    return resultSet.getString("property");
+                return null;
             }
         }
     }
