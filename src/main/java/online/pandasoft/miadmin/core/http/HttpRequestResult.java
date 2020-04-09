@@ -21,12 +21,14 @@ import online.pandasoft.miadmin.core.task.MiTaskResult;
 public class HttpRequestResult implements MiTaskResult {
     private final int code;
     private final String requestParameter;
-    private final String requestResponse;
+    private final RequestResponse requestResponse;
+    private final String rawMessage;
 
-    protected HttpRequestResult(int code, String requestParameter, String requestResponse) {
+    protected HttpRequestResult(int code, String requestParameter, RequestResponse requestResponse, String rawMessage) {
         this.code = code;
         this.requestParameter = requestParameter;
         this.requestResponse = requestResponse;
+        this.rawMessage = rawMessage;
     }
 
     /**
@@ -48,11 +50,20 @@ public class HttpRequestResult implements MiTaskResult {
     }
 
     /**
-     * Returns the response obtained by the request.
+     * The response obtained by the request is returned with the specified type.
      *
      * @return Response obtained by the request
      */
-    public String getRequestResponse() {
+    public RequestResponse getRequestResponse() {
         return requestResponse;
+    }
+
+    /**
+     * Returns the raw message of the response obtained by the request.
+     *
+     * @return Raw message of the response obtained by the request
+     */
+    public String getRawMessage() {
+        return rawMessage;
     }
 }

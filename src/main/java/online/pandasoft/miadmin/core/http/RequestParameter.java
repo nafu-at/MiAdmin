@@ -34,6 +34,16 @@ public class RequestParameter implements IRequestParameter {
         return endpoint;
     }
 
+    @Override
+    public int getSuccessCode() {
+        return 204;
+    }
+
+    @Override
+    public Class<? extends RequestResponse> getResponseClass() {
+        return null;
+    }
+
     protected void setToken(String token) {
         this.token = token;
     }

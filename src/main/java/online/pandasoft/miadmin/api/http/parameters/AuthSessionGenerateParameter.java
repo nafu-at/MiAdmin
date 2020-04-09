@@ -17,17 +17,29 @@
 package online.pandasoft.miadmin.api.http.parameters;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import online.pandasoft.miadmin.api.http.responses.AuthSessionGenerateResponse;
 import online.pandasoft.miadmin.core.http.RequestParameter;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
 public class AuthSessionGenerateParameter extends RequestParameter {
     @JsonProperty("appSecret")
     private String appSecret;
 
-    public AuthSessionGenerateParameter(String endpoint) {
+    protected AuthSessionGenerateParameter(String endpoint) {
         super(endpoint);
     }
 
     public void setAppSecret(String appSecret) {
         this.appSecret = appSecret;
+    }
+
+    @Override
+    public int getSuccessCode() {
+        return 200;
+    }
+
+    @Override
+    public Class<? extends RequestResponse> getResponseClass() {
+        return AuthSessionGenerateResponse.class;
     }
 }

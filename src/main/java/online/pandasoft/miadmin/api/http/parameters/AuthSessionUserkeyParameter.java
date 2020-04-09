@@ -17,7 +17,9 @@
 package online.pandasoft.miadmin.api.http.parameters;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import online.pandasoft.miadmin.api.http.responses.AuthSessionUserkeyResponse;
 import online.pandasoft.miadmin.core.http.RequestParameter;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
 public class AuthSessionUserkeyParameter extends RequestParameter {
     @JsonProperty("appSecret")
@@ -25,7 +27,7 @@ public class AuthSessionUserkeyParameter extends RequestParameter {
     @JsonProperty("token")
     private String token;
 
-    public AuthSessionUserkeyParameter(String endpoint) {
+    protected AuthSessionUserkeyParameter(String endpoint) {
         super(endpoint);
     }
 
@@ -35,5 +37,15 @@ public class AuthSessionUserkeyParameter extends RequestParameter {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public int getSuccessCode() {
+        return 200;
+    }
+
+    @Override
+    public Class<? extends RequestResponse> getResponseClass() {
+        return AuthSessionUserkeyResponse.class;
     }
 }

@@ -17,7 +17,9 @@
 package online.pandasoft.miadmin.api.http.parameters;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import online.pandasoft.miadmin.api.http.responses.AppCreateResponse;
 import online.pandasoft.miadmin.core.http.RequestParameter;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class AppCreateParameter extends RequestParameter {
     @JsonProperty("callbackUrl")
     private String callbackURL;
 
-    public AppCreateParameter(String endpoint) {
+    protected AppCreateParameter(String endpoint) {
         super(endpoint);
     }
 
@@ -49,5 +51,15 @@ public class AppCreateParameter extends RequestParameter {
 
     public void setCallbackURL(String callbackURL) {
         this.callbackURL = callbackURL;
+    }
+
+    @Override
+    public int getSuccessCode() {
+        return 200;
+    }
+
+    @Override
+    public Class<? extends RequestResponse> getResponseClass() {
+        return AppCreateResponse.class;
     }
 }

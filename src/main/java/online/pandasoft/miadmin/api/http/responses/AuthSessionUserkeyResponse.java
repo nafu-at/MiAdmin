@@ -18,8 +18,9 @@ package online.pandasoft.miadmin.api.http.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import online.pandasoft.miadmin.api.elements.user.User;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
-public class AuthSessionUserkeyResponse {
+public class AuthSessionUserkeyResponse implements RequestResponse {
     @JsonProperty("accessToken")
     private String accessToken;
     @JsonProperty("user")

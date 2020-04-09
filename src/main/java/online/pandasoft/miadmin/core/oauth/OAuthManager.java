@@ -51,7 +51,7 @@ public class OAuthManager {
     }
 
     public String getAppSecret() {
-        AppCreateParameter appCreate = (AppCreateParameter) RequestParameters.APP_CREATE;
+        AppCreateParameter appCreate = (AppCreateParameter) RequestParameters.newInstance(RequestParameters.APP_CREATE);
         appCreate.setName("MiAdmin");
         appCreate.setDescription("A multi-functional tool to support Misskey's operations.");
         appCreate.setPermission(getAllPermissionList());
@@ -79,7 +79,7 @@ public class OAuthManager {
     }
 
     public void openAuthenticationPage(String appSecret) {
-        AuthSessionGenerateParameter generateParameter = (AuthSessionGenerateParameter) RequestParameters.AUTH_SESSION_GENERATE;
+        AuthSessionGenerateParameter generateParameter = (AuthSessionGenerateParameter) RequestParameters.newInstance(RequestParameters.AUTH_SESSION_GENERATE);
         generateParameter.setAppSecret(appSecret);
 
         String url = null;
@@ -141,7 +141,7 @@ public class OAuthManager {
     }
 
     public String getAccessToken(String appSecret, String token) {
-        AuthSessionUserkeyParameter userkeyParameter = (AuthSessionUserkeyParameter) RequestParameters.AUTH_SESSION_USERKEY;
+        AuthSessionUserkeyParameter userkeyParameter = (AuthSessionUserkeyParameter) RequestParameters.newInstance(RequestParameters.AUTH_SESSION_USERKEY);
         userkeyParameter.setAppSecret(appSecret);
         userkeyParameter.setToken(token);
 

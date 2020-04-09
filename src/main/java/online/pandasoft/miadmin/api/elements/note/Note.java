@@ -21,12 +21,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import online.pandasoft.miadmin.api.elements.file.File;
 import online.pandasoft.miadmin.api.elements.general.Emoji;
 import online.pandasoft.miadmin.api.elements.user.User;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
 import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Note {
+public class Note implements RequestResponse {
     @JsonProperty("id")
     private String id;
     @JsonProperty("createdAt")
@@ -59,10 +60,16 @@ public class Note {
     private String replyID;
     @JsonProperty("renoteId")
     private String renoteID;
+    @JsonProperty("visibleUserIDS")
+    private List<String> visibleUserIDS;
     @JsonProperty("uri")
     private String uri;
     @JsonProperty("renote")
     private Note renote;
+    @JsonProperty("tags")
+    private List<String> tags;
+    @JsonProperty("poll")
+    private Object poll;
 
     public String getID() {
         return id;
@@ -128,12 +135,24 @@ public class Note {
         return renoteID;
     }
 
+    public List<String> getVisibleUserIDS() {
+        return visibleUserIDS;
+    }
+
     public String getURI() {
         return uri;
     }
 
     public Note getRenote() {
         return renote;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public Object getPoll() {
+        return poll;
     }
 
     @Override
@@ -144,8 +163,9 @@ public class Note {
                 ", userID='" + userID + '\'' +
                 ", user=" + user +
                 ", text='" + text + '\'' +
-                ", cw=" + cw +
+                ", cw='" + cw + '\'' +
                 ", visibility='" + visibility + '\'' +
+                ", localOnly=" + localOnly +
                 ", renoteCount=" + renoteCount +
                 ", repliesCount=" + repliesCount +
                 ", reactions=" + reactions +
@@ -154,8 +174,11 @@ public class Note {
                 ", files=" + files +
                 ", replyID='" + replyID + '\'' +
                 ", renoteID='" + renoteID + '\'' +
+                ", visibleUserIDS=" + visibleUserIDS +
                 ", uri='" + uri + '\'' +
                 ", renote=" + renote +
+                ", tags=" + tags +
+                ", poll=" + poll +
                 '}';
     }
 }

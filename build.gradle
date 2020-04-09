@@ -21,7 +21,7 @@ plugins {
 }
 
 group 'online.pandasoft'
-version '0.0.1'
+version '0.0.2'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -115,4 +115,7 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:3.4.2'
     implementation 'mysql:mysql-connector-java:8.0.18'
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.5.3'
+
+    // Other
+    implementation 'de.vandermeer:asciitable:0.3.2'
 }

@@ -51,7 +51,11 @@ public class HttpRequestTask implements MiTask {
                 .post(requestBody)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-            return new HttpRequestResult(response.code(), requestParameter, response.body().string());
+            String responseRaw = response.body().string();
+            RequestResponse responseClass = null;
+            if (response.code() == parameter.getSuccessCode() && parameter.getResponseClass() != null)
+                responseClass = mapper.readValue(responseRaw, parameter.getResponseClass());
+            return new HttpRequestResult(response.code(), requestParameter, responseClass, response.body().string());
         }
     }
 }

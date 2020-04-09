@@ -17,10 +17,11 @@
 package online.pandasoft.miadmin.api.http.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
 import java.util.List;
 
-public class AppCreateResponse {
+public class AppCreateResponse implements RequestResponse {
     @JsonProperty("id")
     private String id;
     @JsonProperty("name")

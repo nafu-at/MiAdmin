@@ -16,15 +16,55 @@
 
 package online.pandasoft.miadmin.api.http.parameters;
 
+import online.pandasoft.miadmin.core.http.IRequestParameter;
 import online.pandasoft.miadmin.core.http.RequestParameter;
 
-public final class RequestParameters {
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
+public final class RequestParameters {
+    private static final Map<String, Class<? extends IRequestParameter>> classes;
+
+    // Admin
+    public static final String ADMIN_SILENCE_USER = "admin/silence-user";
+    public static final String ADMIN_SUSPEND_USER = "admin/suspend-user";
+    public static final String ADMIN_UNSILENCE_USER = "admin/unsilence-user";
+    public static final String ADMIN_UNSUSPEND_USER = "admin/unsuspend-user";
 
     // App
-    public static final RequestParameter APP_CREATE = new AppCreateParameter("app/create");
+    public static final String APP_CREATE = "app/create";
 
     //Auth
-    public static final RequestParameter AUTH_SESSION_GENERATE = new AuthSessionGenerateParameter("auth/session/generate");
-    public static final RequestParameter AUTH_SESSION_USERKEY = new AuthSessionUserkeyParameter("auth/session/userkey");
+    public static final String AUTH_SESSION_GENERATE = "auth/session/generate";
+    public static final String AUTH_SESSION_USERKEY = "auth/session/userkey";
+
+    // Note
+    public static final String NOTES_DELETE = "notes/delete";
+    public static final String NOTE_SHOW = "notes/show";
+
+    static {
+        classes = new HashMap<>();
+        classes.put("admin/silence-user", AdminSilenceSuspendParameter.class);
+        classes.put("admin/suspend-user", AdminSilenceSuspendParameter.class);
+        classes.put("admin/unsilence-user", AdminSilenceSuspendParameter.class);
+        classes.put("admin/unsuspend-user", AdminSilenceSuspendParameter.class);
+
+        classes.put("app/create", AppCreateParameter.class);
+
+        classes.put("auth/session/generate", AuthSessionGenerateParameter.class);
+        classes.put("auth/session/userkey", AuthSessionUserkeyParameter.class);
+
+        classes.put("notes/delete", GeneralNotesParameter.class);
+        classes.put("notes/show", NotesShowParameter.class);
+    }
+
+    public static RequestParameter newInstance(String endpoint) {
+        try {
+            return (RequestParameter) classes.get(endpoint).getDeclaredConstructor(String.class).newInstance(endpoint);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -19,4 +19,8 @@ package online.pandasoft.miadmin.core.http;
 public interface IRequestParameter {
 
     String getEndpoint();
+
+    int getSuccessCode();
+
+    Class<? extends RequestResponse> getResponseClass();
 }
