@@ -20,12 +20,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import online.pandasoft.miadmin.api.elements.general.Emoji;
 import online.pandasoft.miadmin.api.elements.note.Note;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User implements RequestResponse {
+public class User {
     @JsonProperty("id")
     private String id;
     @JsonProperty("name")

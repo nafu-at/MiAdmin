@@ -22,6 +22,8 @@ import online.pandasoft.miadmin.core.command.CommandExecutor;
 import online.pandasoft.miadmin.core.command.CommandManager;
 import online.pandasoft.miadmin.core.command.ConsoleReader;
 import online.pandasoft.miadmin.core.command.executor.InviteCommand;
+import online.pandasoft.miadmin.core.command.executor.SilenceCommand;
+import online.pandasoft.miadmin.core.command.executor.SoftIceCommand;
 import online.pandasoft.miadmin.core.command.executor.system.HelpCommand;
 import online.pandasoft.miadmin.core.command.executor.system.ModuleCommand;
 import online.pandasoft.miadmin.core.command.executor.system.StopCommand;
@@ -36,6 +38,8 @@ import java.sql.SQLException;
 
 @Slf4j
 public class Launcher implements MiAdminLauncher {
+    private boolean finished;
+
     private ConfigManager configManager;
     private MiConfig config;
 
@@ -111,7 +115,7 @@ public class Launcher implements MiAdminLauncher {
             }
         }
 
-        taskManager = new MiTaskManager(1000);
+        taskManager = new MiTaskManager(500);
         taskManager.setName("MiTaskManagerThread");
         taskManager.start();
 
@@ -133,6 +137,11 @@ public class Launcher implements MiAdminLauncher {
         consoleReader.start();
 
         moduleManager.enableAllModules();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (!finished)
+                shutdown();
+        }));
     }
 
     private void initCommand() {
@@ -143,7 +152,10 @@ public class Launcher implements MiAdminLauncher {
         commandManager.registerCommand(stopCommand, null);
         commandManager.setIgnore(stopCommand);
         commandManager.registerCommand(new ModuleCommand("modules", "module"), null);
+
         commandManager.registerCommand(new InviteCommand("invite"), null);
+        commandManager.registerCommand(new SoftIceCommand("freeze", "softfreeze"), null);
+        commandManager.registerCommand(new SilenceCommand("silence"), null);
     }
 
     @Override
@@ -154,6 +166,7 @@ public class Launcher implements MiAdminLauncher {
         moduleManager.disableAllModules();
         taskManager.shutdown();
         connector.close();
+        finished = true;
     }
 
     @Override

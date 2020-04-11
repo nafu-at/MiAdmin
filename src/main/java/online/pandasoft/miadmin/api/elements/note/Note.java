@@ -16,18 +16,15 @@
 
 package online.pandasoft.miadmin.api.elements.note;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import online.pandasoft.miadmin.api.elements.file.File;
 import online.pandasoft.miadmin.api.elements.general.Emoji;
 import online.pandasoft.miadmin.api.elements.user.User;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
 import java.util.List;
 import java.util.Map;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Note implements RequestResponse {
+public class Note {
     @JsonProperty("id")
     private String id;
     @JsonProperty("createdAt")
@@ -64,8 +61,16 @@ public class Note implements RequestResponse {
     private List<String> visibleUserIDS;
     @JsonProperty("uri")
     private String uri;
+    @JsonProperty("reply")
+    private Note reply;
     @JsonProperty("renote")
     private Note renote;
+    @JsonProperty("viaMobile")
+    private boolean viaMobile;
+    @JsonProperty("isHidden")
+    private boolean isHidden;
+    @JsonProperty("mentions")
+    private List<String> mentions;
     @JsonProperty("tags")
     private List<String> tags;
     @JsonProperty("poll")
@@ -135,12 +140,28 @@ public class Note implements RequestResponse {
         return renoteID;
     }
 
+    public boolean isViaMobile() {
+        return viaMobile;
+    }
+
+    public boolean isHidden() {
+        return isHidden;
+    }
+
+    public List<String> getMentions() {
+        return mentions;
+    }
+
     public List<String> getVisibleUserIDS() {
         return visibleUserIDS;
     }
 
     public String getURI() {
         return uri;
+    }
+
+    public Note getReply() {
+        return reply;
     }
 
     public Note getRenote() {
@@ -153,32 +174,5 @@ public class Note implements RequestResponse {
 
     public Object getPoll() {
         return poll;
-    }
-
-    @Override
-    public String toString() {
-        return "Note{" +
-                "id='" + id + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", userID='" + userID + '\'' +
-                ", user=" + user +
-                ", text='" + text + '\'' +
-                ", cw='" + cw + '\'' +
-                ", visibility='" + visibility + '\'' +
-                ", localOnly=" + localOnly +
-                ", renoteCount=" + renoteCount +
-                ", repliesCount=" + repliesCount +
-                ", reactions=" + reactions +
-                ", emojis=" + emojis +
-                ", fileIDS=" + fileIDS +
-                ", files=" + files +
-                ", replyID='" + replyID + '\'' +
-                ", renoteID='" + renoteID + '\'' +
-                ", visibleUserIDS=" + visibleUserIDS +
-                ", uri='" + uri + '\'' +
-                ", renote=" + renote +
-                ", tags=" + tags +
-                ", poll=" + poll +
-                '}';
     }
 }

@@ -17,12 +17,14 @@
 package online.pandasoft.miadmin.core.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import online.pandasoft.miadmin.core.Main;
 import online.pandasoft.miadmin.core.launcher.MiAdminLauncher;
 import online.pandasoft.miadmin.core.task.MiTask;
 import online.pandasoft.miadmin.core.task.MiTaskResultHandler;
 
+@Slf4j
 public class HttpRequestTask implements MiTask {
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -46,13 +48,15 @@ public class HttpRequestTask implements MiTask {
         parameter.setToken(launcher.getToken());
         String requestParameter = mapper.writeValueAsString(parameter);
         RequestBody requestBody = RequestBody.create(requestParameter, JSON);
+        log.debug("Send Request: {}\n{}\n", parameter.getEndpoint(), requestParameter);
         Request request = new Request.Builder()
                 .url("https://" + launcher.getMiConfig().getAuth().getInstanceUrl() + "/api/" + parameter.getEndpoint())
                 .post(requestBody)
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String responseRaw = response.body().string();
-            RequestResponse responseClass = null;
+            Object responseClass = null;
+            log.debug("Response Received: Code {}\n{}\n", response.code(), responseRaw);
             if (response.code() == parameter.getSuccessCode() && parameter.getResponseClass() != null)
                 responseClass = mapper.readValue(responseRaw, parameter.getResponseClass());
             return new HttpRequestResult(response.code(), requestParameter, responseClass, responseRaw);

@@ -18,7 +18,6 @@ package online.pandasoft.miadmin.api.http.parameters;
 
 import online.pandasoft.miadmin.api.http.responses.AdminInviteResponse;
 import online.pandasoft.miadmin.core.http.RequestParameter;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
 public class AdminInviteParameter extends RequestParameter {
 
@@ -32,7 +31,7 @@ public class AdminInviteParameter extends RequestParameter {
     }
 
     @Override
-    public Class<? extends RequestResponse> getResponseClass() {
+    public Class getResponseClass() {
         return AdminInviteResponse.class;
     }
 }

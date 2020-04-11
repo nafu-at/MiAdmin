@@ -22,5 +22,5 @@ public interface IRequestParameter {
 
     int getSuccessCode();
 
-    Class<? extends RequestResponse> getResponseClass();
+    Class getResponseClass();
 }

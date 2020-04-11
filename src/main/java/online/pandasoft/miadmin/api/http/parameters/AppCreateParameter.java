@@ -19,7 +19,6 @@ package online.pandasoft.miadmin.api.http.parameters;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import online.pandasoft.miadmin.api.http.responses.AppCreateResponse;
 import online.pandasoft.miadmin.core.http.RequestParameter;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class AppCreateParameter extends RequestParameter {
     }
 
     @Override
-    public Class<? extends RequestResponse> getResponseClass() {
+    public Class getResponseClass() {
         return AppCreateResponse.class;
     }
 }

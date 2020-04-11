@@ -77,8 +77,8 @@ public class MiTaskManager extends Thread {
                     } catch (Throwable e) {
                         log.error("Uncaught exceptions in handlers", e);
                     }
+                    sleep(executeInterval);
                 }
-                sleep(executeInterval);
             }
         } catch (InterruptedException e) {
             log.debug("The thread has been manually resumed from a standby state.");

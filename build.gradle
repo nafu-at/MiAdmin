@@ -21,7 +21,7 @@ plugins {
 }
 
 group 'online.pandasoft'
-version '0.0.3'
+version '0.0.4'
 
 sourceCompatibility = 11
 targetCompatibility = 11

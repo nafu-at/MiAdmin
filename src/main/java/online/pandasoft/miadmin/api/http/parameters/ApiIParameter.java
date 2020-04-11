@@ -18,7 +18,6 @@ package online.pandasoft.miadmin.api.http.parameters;
 
 import online.pandasoft.miadmin.api.elements.user.User;
 import online.pandasoft.miadmin.core.http.RequestParameter;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
 public class ApiIParameter extends RequestParameter {
 
@@ -32,7 +31,7 @@ public class ApiIParameter extends RequestParameter {
     }
 
     @Override
-    public Class<? extends RequestResponse> getResponseClass() {
+    public Class getResponseClass() {
         return User.class;
     }
 }

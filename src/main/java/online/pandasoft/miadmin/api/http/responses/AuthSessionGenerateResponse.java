@@ -17,9 +17,8 @@
 package online.pandasoft.miadmin.api.http.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
-public class AuthSessionGenerateResponse implements RequestResponse {
+public class AuthSessionGenerateResponse {
     @JsonProperty("token")
     private String token;
     @JsonProperty("url")

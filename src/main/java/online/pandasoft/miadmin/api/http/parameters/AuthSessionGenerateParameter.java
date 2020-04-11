@@ -19,7 +19,6 @@ package online.pandasoft.miadmin.api.http.parameters;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import online.pandasoft.miadmin.api.http.responses.AuthSessionGenerateResponse;
 import online.pandasoft.miadmin.core.http.RequestParameter;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
 public class AuthSessionGenerateParameter extends RequestParameter {
     @JsonProperty("appSecret")
@@ -39,7 +38,7 @@ public class AuthSessionGenerateParameter extends RequestParameter {
     }
 
     @Override
-    public Class<? extends RequestResponse> getResponseClass() {
+    public Class getResponseClass() {
         return AuthSessionGenerateResponse.class;
     }
 }

@@ -21,10 +21,10 @@ import online.pandasoft.miadmin.core.task.MiTaskResult;
 public class HttpRequestResult implements MiTaskResult {
     private final int code;
     private final String requestParameter;
-    private final RequestResponse requestResponse;
+    private final Object requestResponse;
     private final String rawMessage;
 
-    protected HttpRequestResult(int code, String requestParameter, RequestResponse requestResponse, String rawMessage) {
+    protected HttpRequestResult(int code, String requestParameter, Object requestResponse, String rawMessage) {
         this.code = code;
         this.requestParameter = requestParameter;
         this.requestResponse = requestResponse;
@@ -54,7 +54,7 @@ public class HttpRequestResult implements MiTaskResult {
      *
      * @return Response obtained by the request
      */
-    public RequestResponse getRequestResponse() {
+    public Object getRequestResponse() {
         return requestResponse;
     }
 

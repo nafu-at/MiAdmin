@@ -14,7 +14,20 @@
  * limitations under the License.
  */
 
-package online.pandasoft.miadmin.core.http;
+package online.pandasoft.miadmin.api.http.parameters;
 
-public interface RequestResponse {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import online.pandasoft.miadmin.core.http.RequestParameter;
+
+public class AdminDeleteAllFilesOfAUserParameter extends RequestParameter {
+    @JsonProperty("userId")
+    private String userId;
+
+    public AdminDeleteAllFilesOfAUserParameter(String endpoint) {
+        super(endpoint);
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

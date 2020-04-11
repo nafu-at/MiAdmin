@@ -17,7 +17,6 @@
 package online.pandasoft.miadmin.api.http.parameters;
 
 import online.pandasoft.miadmin.api.elements.note.Note;
-import online.pandasoft.miadmin.core.http.RequestResponse;
 
 public class NotesShowParameter extends GeneralNotesParameter {
 
@@ -31,7 +30,7 @@ public class NotesShowParameter extends GeneralNotesParameter {
     }
 
     @Override
-    public Class<? extends RequestResponse> getResponseClass() {
+    public Class getResponseClass() {
         return Note.class;
     }
 }

@@ -14,15 +14,28 @@
  * limitations under the License.
  */
 
-package online.pandasoft.miadmin.api.http.responses;
+package online.pandasoft.miadmin.core.command.executor;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import online.pandasoft.miadmin.core.command.CommandContext;
+import online.pandasoft.miadmin.core.command.CommandExecutor;
 
-public class AdminInviteResponse {
-    @JsonProperty("code")
-    private String code;
+public class HardIceCommand extends CommandExecutor {
 
-    public String getCode() {
-        return code;
+    public HardIceCommand(String name, String... aliases) {
+        super(name, aliases);
+    }
+
+    @Override
+    public void onInvoke(CommandContext context) {
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
     }
 }

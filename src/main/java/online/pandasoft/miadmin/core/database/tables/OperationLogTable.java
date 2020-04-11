@@ -149,6 +149,8 @@ public class OperationLogTable extends DatabaseTable {
         return operationLogs;
     }
 
+    // TODO: 2020/04/11 操作内容の部分検索を追加
+
     public void saveOperationLog(OperationLog operationLog) throws SQLException {
         try (Connection connection = getConnector().getConnection();
              PreparedStatement ps = connection.prepareStatement("INSERT INTO " + getTablename() +

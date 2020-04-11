@@ -27,6 +27,7 @@ public final class RequestParameters {
     private static final Map<String, Class<? extends IRequestParameter>> classes;
 
     // Admin
+    public static final String ADMIN_DELETE_ALL_FILES_OF_A_USER = "admin/delete-all-files-of-a-user";
     public static final String ADMIN_INVITE = "admin/invite";
     public static final String ADMIN_SILENCE_USER = "admin/silence-user";
     public static final String ADMIN_SUSPEND_USER = "admin/suspend-user";
@@ -46,8 +47,13 @@ public final class RequestParameters {
     public static final String NOTES_DELETE = "notes/delete";
     public static final String NOTE_SHOW = "notes/show";
 
+    // Users
+    public static final String USERS_NOTES = "users/notes";
+    public static final String USERS_SHOW = "users/show";
+
     static {
         classes = new HashMap<>();
+        classes.put("admin/delete-all-files-of-a-user", AdminDeleteAllFilesOfAUserParameter.class);
         classes.put("admin/invite", AdminInviteParameter.class);
         classes.put("admin/silence-user", AdminSilenceSuspendParameter.class);
         classes.put("admin/suspend-user", AdminSilenceSuspendParameter.class);
@@ -63,6 +69,9 @@ public final class RequestParameters {
 
         classes.put("notes/delete", GeneralNotesParameter.class);
         classes.put("notes/show", NotesShowParameter.class);
+
+        classes.put("users/notes", UsersNotesParameter.class);
+        classes.put("users/show", UsersShowParameter.class);
     }
 
     public static RequestParameter newInstance(String endpoint) {

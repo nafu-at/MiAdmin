@@ -16,10 +16,12 @@
 
 package online.pandasoft.miadmin.core.http;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RequestParameter implements IRequestParameter {
+    @JsonIgnore
     private final String endpoint;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("i")
@@ -34,13 +36,15 @@ public class RequestParameter implements IRequestParameter {
         return endpoint;
     }
 
+    @JsonIgnore
     @Override
     public int getSuccessCode() {
         return 204;
     }
 
+    @JsonIgnore
     @Override
-    public Class<? extends RequestResponse> getResponseClass() {
+    public Class getResponseClass() {
         return null;
     }
 
