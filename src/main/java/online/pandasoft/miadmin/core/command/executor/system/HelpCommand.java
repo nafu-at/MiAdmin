@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package online.pandasoft.miadmin.core.command.executor;
+package online.pandasoft.miadmin.core.command.executor.system;
 
 import online.pandasoft.miadmin.core.Main;
 import online.pandasoft.miadmin.core.command.CommandContext;
@@ -43,7 +43,7 @@ public class HelpCommand extends CommandExecutor {
             if (executor != null) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(executor.getName() + ": " + executor.getDescription() + "\n");
-                builder.append(executor.getDescription());
+                builder.append(executor.getHelp());
                 context.printMessage(Level.INFO, builder.toString());
             } else {
                 context.printMessage(Level.INFO, "No such command is registered.\n" +
@@ -59,7 +59,7 @@ public class HelpCommand extends CommandExecutor {
 
     @Override
     public String getHelp() {
-        return getName() + " [options]\n----\n" +
-                "<CommandName>: Displays detailed usage of the command.";
+        return getName() + " <CommandName>\n----\n" +
+                "<CommandName>: Displays detailed usage of the command.\n";
     }
 }

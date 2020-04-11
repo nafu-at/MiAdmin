@@ -19,6 +19,7 @@ package online.pandasoft.miadmin.api;
 import online.pandasoft.miadmin.core.command.CommandManager;
 import online.pandasoft.miadmin.core.database.DatabaseConnector;
 import online.pandasoft.miadmin.core.launcher.MiConfig;
+import online.pandasoft.miadmin.core.module.ModuleManager;
 import online.pandasoft.miadmin.core.task.MiTaskManager;
 import online.pandasoft.miadmin.core.websocket.WebSocketClient;
 
@@ -31,6 +32,8 @@ public interface MiAdmin {
     MiTaskManager getTaskManager();
 
     CommandManager getCommandManager();
+
+    ModuleManager getModuleManager();
 
     WebSocketClient getWebSocketClient();
 }

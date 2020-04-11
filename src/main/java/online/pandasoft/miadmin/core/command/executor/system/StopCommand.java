@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package online.pandasoft.miadmin.core.command.executor;
+package online.pandasoft.miadmin.core.command.executor.system;
 
 import online.pandasoft.miadmin.core.Main;
 import online.pandasoft.miadmin.core.command.CommandCache;
@@ -38,7 +38,7 @@ public class StopCommand extends CommandExecutor {
             String pass = RandomStringUtils.randomAlphanumeric(6);
             CommandCache.registerCache(null, "exitcode", pass);
             context.printMessage(Level.INFO, "An execution key has been generated to prevent misoperation.\n" +
-                    "Enter a run key in the argument and run it again.: " + pass);
+                    "Enter a execution key in the argument and run it again.: " + pass);
         } else {
             if (context.getArgs()[0].equals(CommandCache.getCache(null, "exitcode")))
                 launcher.shutdown();
@@ -54,6 +54,7 @@ public class StopCommand extends CommandExecutor {
 
     @Override
     public String getHelp() {
-        return null;
+        return getName() + " <ExecutionKey>\n----\n" +
+                "<ExecutionKey>: Enter the execution key that you received to exit the system.\n";
     }
 }

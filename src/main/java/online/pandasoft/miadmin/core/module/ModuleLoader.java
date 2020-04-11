@@ -19,6 +19,7 @@ package online.pandasoft.miadmin.core.module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.extern.slf4j.Slf4j;
+import online.pandasoft.miadmin.core.Main;
 import online.pandasoft.miadmin.core.module.exception.InvalidDescriptionException;
 import online.pandasoft.miadmin.core.module.exception.InvalidModuleException;
 import online.pandasoft.miadmin.core.module.exception.UnknownDependencyException;
@@ -79,6 +80,11 @@ public class ModuleLoader {
             throw new InvalidModuleException(e);
         }
 
+        int currentVersion = parseVersion(Main.class.getPackage().getImplementationVersion());
+        int requiredVersion = parseVersion(description.getRequiredVersion());
+        if (requiredVersion > currentVersion)
+            throw new InvalidModuleException("The current version of MiAdmin in use is unavailable because it falls below the version required by the module.");
+
         if (!CollectionUtils.isEmpty(description.getDependency())) {
             for (String dep : description.getDependency()) {
                 if (moduleRegistry.getModule(dep) == null)
@@ -132,6 +138,15 @@ public class ModuleLoader {
                 } catch (IOException e) {
                 }
             }
+        }
+    }
+
+    private int parseVersion(String version) {
+        String[] sa = version.split("-");
+        try {
+            return Integer.parseInt(sa[0].replaceAll(".", ""));
+        } catch (NumberFormatException e) {
+            return 0;
         }
     }
 }

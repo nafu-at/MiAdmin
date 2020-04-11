@@ -21,8 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 import online.pandasoft.miadmin.core.command.CommandExecutor;
 import online.pandasoft.miadmin.core.command.CommandManager;
 import online.pandasoft.miadmin.core.command.ConsoleReader;
-import online.pandasoft.miadmin.core.command.executor.HelpCommand;
-import online.pandasoft.miadmin.core.command.executor.StopCommand;
+import online.pandasoft.miadmin.core.command.executor.InviteCommand;
+import online.pandasoft.miadmin.core.command.executor.system.HelpCommand;
+import online.pandasoft.miadmin.core.command.executor.system.ModuleCommand;
+import online.pandasoft.miadmin.core.command.executor.system.StopCommand;
 import online.pandasoft.miadmin.core.database.DatabaseConnector;
 import online.pandasoft.miadmin.core.database.tables.SystemParametersTable;
 import online.pandasoft.miadmin.core.module.ModuleManager;
@@ -137,7 +139,11 @@ public class Launcher implements MiAdminLauncher {
         CommandExecutor helpCommand = new HelpCommand("help", "h");
         commandManager.registerCommand(helpCommand, null);
         commandManager.setIgnore(helpCommand);
-        commandManager.registerCommand(new StopCommand("stop", "exit", "shutdown"), null);
+        CommandExecutor stopCommand = new StopCommand("stop", "exit", "shutdown");
+        commandManager.registerCommand(stopCommand, null);
+        commandManager.setIgnore(stopCommand);
+        commandManager.registerCommand(new ModuleCommand("modules", "module"), null);
+        commandManager.registerCommand(new InviteCommand("invite"), null);
     }
 
     @Override
@@ -168,6 +174,11 @@ public class Launcher implements MiAdminLauncher {
     @Override
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    @Override
+    public ModuleManager getModuleManager() {
+        return moduleManager;
     }
 
     @Override

@@ -27,6 +27,7 @@ public final class RequestParameters {
     private static final Map<String, Class<? extends IRequestParameter>> classes;
 
     // Admin
+    public static final String ADMIN_INVITE = "admin/invite";
     public static final String ADMIN_SILENCE_USER = "admin/silence-user";
     public static final String ADMIN_SUSPEND_USER = "admin/suspend-user";
     public static final String ADMIN_UNSILENCE_USER = "admin/unsilence-user";
@@ -39,12 +40,15 @@ public final class RequestParameters {
     public static final String AUTH_SESSION_GENERATE = "auth/session/generate";
     public static final String AUTH_SESSION_USERKEY = "auth/session/userkey";
 
+    private static final String I = "i";
+
     // Note
     public static final String NOTES_DELETE = "notes/delete";
     public static final String NOTE_SHOW = "notes/show";
 
     static {
         classes = new HashMap<>();
+        classes.put("admin/invite", AdminInviteParameter.class);
         classes.put("admin/silence-user", AdminSilenceSuspendParameter.class);
         classes.put("admin/suspend-user", AdminSilenceSuspendParameter.class);
         classes.put("admin/unsilence-user", AdminSilenceSuspendParameter.class);
@@ -54,6 +58,8 @@ public final class RequestParameters {
 
         classes.put("auth/session/generate", AuthSessionGenerateParameter.class);
         classes.put("auth/session/userkey", AuthSessionUserkeyParameter.class);
+
+        classes.put("i", ApiIParameter.class);
 
         classes.put("notes/delete", GeneralNotesParameter.class);
         classes.put("notes/show", NotesShowParameter.class);

@@ -29,7 +29,7 @@ public class Main {
     private static MiAdminLauncher launcher;
 
     public static void main(String[] args) {
-        log.info("¥n" +
+        log.info("\n" +
                 " __  __ _    _       _           _       \n" +
                 "|  \\/  (_)  / \\   __| |_ __ ___ (_)_ __  \n" +
                 "| |\\/| | | / _ \\ / _` | '_ ` _ \\| | '_ \\ \n" +

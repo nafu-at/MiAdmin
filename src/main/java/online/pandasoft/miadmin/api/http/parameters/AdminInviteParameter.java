@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package online.pandasoft.miadmin.core.websocket;
+package online.pandasoft.miadmin.api.http.parameters;
 
-import org.jetbrains.annotations.NotNull;
+import online.pandasoft.miadmin.api.http.responses.AdminInviteResponse;
+import online.pandasoft.miadmin.core.http.RequestParameter;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
-public class ListenerAdapter implements WebSocketEventListener {
-    @Override
-    public final void onEvent(@NotNull IWebSocketEvent event) {
-        // TODO: 2020/03/20 そのうちバリエーション増やす
-        onWebSocketEvent(event);
+public class AdminInviteParameter extends RequestParameter {
+
+    public AdminInviteParameter(String endpoint) {
+        super(endpoint);
     }
 
-    public void onWebSocketEvent(IWebSocketEvent event) {
+    @Override
+    public int getSuccessCode() {
+        return 200;
+    }
+
+    @Override
+    public Class<? extends RequestResponse> getResponseClass() {
+        return AdminInviteResponse.class;
     }
 }

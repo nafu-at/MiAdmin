@@ -43,6 +43,13 @@ public class ModuleManager {
     }
 
     /**
+     * @return Returns all registered modules.
+     */
+    public List<MiModule> getModules() {
+        return moduleRegistry.getModules();
+    }
+
+    /**
      * Get a module.
      *
      * @param name Name of the module to get.
@@ -140,9 +147,12 @@ public class ModuleManager {
      *
      * @param name Module name to enable.
      * @return Returns true if the module was successfully enabled.
+     * @throws IllegalArgumentException It will be thrown if the specified module does not exist.
      */
     public boolean enableModule(String name) {
         MiModule module = moduleRegistry.getModule(name);
+        if (module == null)
+            throw new IllegalArgumentException("The specified module is not registered.");
         return enableModule(module);
     }
 
@@ -170,9 +180,12 @@ public class ModuleManager {
      *
      * @param name Module name to disable.
      * @return Returns true if the module has been successfully disabled.
+     * @throws IllegalArgumentException It will be thrown if the specified module does not exist.
      */
     public boolean disableModule(String name) {
         MiModule module = moduleRegistry.getModule(name);
+        if (module == null)
+            throw new IllegalArgumentException("The specified module is not registered.");
         return disableModule(module);
     }
 
@@ -200,9 +213,12 @@ public class ModuleManager {
      * Unloads the module.
      *
      * @param name Module name to unload.
+     * @throws IllegalArgumentException It will be thrown if the specified module does not exist.
      */
     public void unloadModule(String name) {
         MiModule module = moduleRegistry.getModule(name);
+        if (module == null)
+            throw new IllegalArgumentException("The specified module is not registered.");
         unloadModule(module);
     }
 

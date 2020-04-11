@@ -20,11 +20,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import online.pandasoft.miadmin.api.elements.general.Emoji;
 import online.pandasoft.miadmin.api.elements.note.Note;
+import online.pandasoft.miadmin.core.http.RequestResponse;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
+public class User implements RequestResponse {
     @JsonProperty("id")
     private String id;
     @JsonProperty("name")
@@ -115,6 +116,10 @@ public class User {
     private boolean hasUnreadNotification;
     @JsonProperty("hasPendingReceivedFollowRequest")
     private boolean hasPendingReceivedFollowRequest;
+    @JsonProperty("hasUnreadSpecifiedNotes")
+    private boolean hasUnreadSpecifiedNotes;
+    @JsonProperty("hasUnreadMentions")
+    private boolean hasUnreadMentions;
     @JsonProperty("integrations")
     private Integrations integrations;
 
@@ -296,6 +301,14 @@ public class User {
 
     public boolean hasPendingReceivedFollowRequest() {
         return hasPendingReceivedFollowRequest;
+    }
+
+    public boolean hasUnreadSpecifiedNotes() {
+        return hasUnreadSpecifiedNotes;
+    }
+
+    public boolean hasUnreadMentions() {
+        return hasUnreadMentions;
     }
 
     public Integrations getIntegrations() {
