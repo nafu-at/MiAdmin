@@ -29,6 +29,7 @@ public final class RequestParameters {
     // Admin
     public static final String ADMIN_DELETE_ALL_FILES_OF_A_USER = "admin/delete-all-files-of-a-user";
     public static final String ADMIN_INVITE = "admin/invite";
+    public static final String ADMIN_RESET_PASSWORD = "admin/reset-password";
     public static final String ADMIN_SILENCE_USER = "admin/silence-user";
     public static final String ADMIN_SUSPEND_USER = "admin/suspend-user";
     public static final String ADMIN_UNSILENCE_USER = "admin/unsilence-user";
@@ -55,6 +56,7 @@ public final class RequestParameters {
         classes = new HashMap<>();
         classes.put("admin/delete-all-files-of-a-user", AdminDeleteAllFilesOfAUserParameter.class);
         classes.put("admin/invite", AdminInviteParameter.class);
+        classes.put("admin/reset-password", AdminResetPasswordParameter.class);
         classes.put("admin/silence-user", AdminSilenceSuspendParameter.class);
         classes.put("admin/suspend-user", AdminSilenceSuspendParameter.class);
         classes.put("admin/unsilence-user", AdminSilenceSuspendParameter.class);

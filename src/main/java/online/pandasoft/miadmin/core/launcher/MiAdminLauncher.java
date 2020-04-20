@@ -23,6 +23,4 @@ public interface MiAdminLauncher extends MiAdmin {
     String getToken();
 
     void launch();
-
-    void shutdown();
 }

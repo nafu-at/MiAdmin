@@ -77,7 +77,7 @@ main: "online.pandasoft.samplemodule.Main"
 |loadBefore| |先に起動すべきモジュール一覧|loadBefore: [HogeHoge, fugafuga]|自分のモジュールよりも先に起動すべき、他のモジュールの一覧を記載します。<br>他モジュールの `name` 設定名で、記載してください。<br>ここに記載されているモジュールが、自分のモジュールよりも前にロードされるようになります。<br>複数のモジュールがloadBefore設定で互いに依存していたとしても、モジュールを起動することができます。|
 |requiredVersion| |モジュール起動に必要なバージョン|requiredVersion: 2.0.0|モジュールを起動するために必要となる、MiAdminのバージョンを記載します。<br>MajorVersion.MinorVersion.PatchVersion の形式に則って記載してください。<br>プレリリースバージョンは判定しません。|
 
-## Lisence
+## License
     Copyright 2020 PandaSoft.Dev Social Networks.
     
     Licensed under the Apache License, Version 2.0 (the "License");

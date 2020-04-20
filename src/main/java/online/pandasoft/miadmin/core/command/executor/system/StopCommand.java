@@ -16,17 +16,14 @@
 
 package online.pandasoft.miadmin.core.command.executor.system;
 
-import online.pandasoft.miadmin.core.Main;
 import online.pandasoft.miadmin.core.command.CommandCache;
 import online.pandasoft.miadmin.core.command.CommandContext;
 import online.pandasoft.miadmin.core.command.CommandExecutor;
-import online.pandasoft.miadmin.core.launcher.MiAdminLauncher;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.logging.Level;
 
 public class StopCommand extends CommandExecutor {
-    private static final MiAdminLauncher launcher = Main.getLauncher();
 
     public StopCommand(String name, String... aliases) {
         super(name, aliases);
@@ -41,7 +38,7 @@ public class StopCommand extends CommandExecutor {
                     "Enter a execution key in the argument and run it again.: " + pass);
         } else {
             if (context.getArgs()[0].equals(CommandCache.getCache(null, "exitcode")))
-                launcher.shutdown();
+                Runtime.getRuntime().exit(0);
             else
                 context.printMessage(Level.INFO, "Incorrect execution key.");
         }

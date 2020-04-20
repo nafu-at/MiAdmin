@@ -76,7 +76,7 @@ The meaning of each item can be found here.
 |loadBefore||List of modules to be launched first|loadBefore: [HogeHoge, fugafuga]|This is a list of other modules that should be started before your module. <BR> Put it in the `name` setting name of the other module. <BR>The modules listed here will be loaded before their own modules. <BR>It is possible to launch a module even if multiple modules depend on each other in the loadBefore setting. |
 |RequiredVersion||The version required to start the module|requiredVersion: 2.0.0|Enter the version of MiAdmin that is required to launch the module. <MajorVersion.MinorVersion.PatchVersion> <BR>The pre-release version is not judged. |
 
-## Lisence
+## License
     Copyright 2020 PandaSoft.Dev Social Networks.
     
     Licensed under the Apache License, Version 2.0 (the "License");

@@ -22,6 +22,7 @@ import online.pandasoft.miadmin.core.command.CommandExecutor;
 import online.pandasoft.miadmin.core.command.CommandManager;
 import online.pandasoft.miadmin.core.command.ConsoleReader;
 import online.pandasoft.miadmin.core.command.executor.InviteCommand;
+import online.pandasoft.miadmin.core.command.executor.PasswordResetCommand;
 import online.pandasoft.miadmin.core.command.executor.SilenceCommand;
 import online.pandasoft.miadmin.core.command.executor.SoftIceCommand;
 import online.pandasoft.miadmin.core.command.executor.system.HelpCommand;
@@ -38,8 +39,6 @@ import java.sql.SQLException;
 
 @Slf4j
 public class Launcher implements MiAdminLauncher {
-    private boolean finished;
-
     private ConfigManager configManager;
     private MiConfig config;
 
@@ -139,8 +138,13 @@ public class Launcher implements MiAdminLauncher {
         moduleManager.enableAllModules();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            if (!finished)
-                shutdown();
+            log.info("Shutting down the system...");
+            if (webSocketClient != null)
+                webSocketClient.close();
+            moduleManager.disableAllModules();
+            taskManager.shutdown();
+            connector.close();
+            log.info("See you again!");
         }));
     }
 
@@ -154,19 +158,9 @@ public class Launcher implements MiAdminLauncher {
         commandManager.registerCommand(new ModuleCommand("modules", "module"), null);
 
         commandManager.registerCommand(new InviteCommand("invite"), null);
+        commandManager.registerCommand(new PasswordResetCommand("reset"), null);
         commandManager.registerCommand(new SoftIceCommand("freeze", "softfreeze"), null);
         commandManager.registerCommand(new SilenceCommand("silence"), null);
-    }
-
-    @Override
-    public void shutdown() {
-        log.info("Shutting down the system...");
-        if (webSocketClient != null)
-            webSocketClient.close();
-        moduleManager.disableAllModules();
-        taskManager.shutdown();
-        connector.close();
-        finished = true;
     }
 
     @Override
